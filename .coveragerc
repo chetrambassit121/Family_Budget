@@ -1,0 +1,9 @@
+# this file is to exclude an folders/files we do not want coverage to test 
+
+[run]
+omit= 
+	*/venv/*
+	*/staticfiles/*
+	*/static/*
+	*/migrations/*
+	*/__init__.py/*

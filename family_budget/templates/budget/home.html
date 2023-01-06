@@ -1,0 +1,23 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block title %}Home{% endblock %}
+{% block content %}
+{% if user.is_authenticated %}
+	<div class="noproject-wrapper center">
+		<!-- <h3>Add a new Budget, or view your existing <a href="{% url 'list' }">Budget Projects</a>!</h3> -->
+		<h3>Add a new Budget, or view your existing <a href="{% url 'profile_page' request.user.profile.pk %}">Budget Projects</a>!</h3>
+	 	<a href="{% url 'add' %}" class="btn-large grey">
+	    	<i class="material-icons white-text left">add_circle</i>
+	    	<span class="bold">Add Budget Projects</span>
+	  	</a>
+	</div>
+{% else %}
+	<div class="wrapper center">
+		<h2 class="gray-text">Welcome to Tivixs Family Budgets</h2>
+		<h3 class="gray-text">Please <a href="{% url 'login' %}">Login</a> or <a href="{% url 'register' %}">Register</a> to create a Budget Project!</h3>
+	</div>
+{% endif %}
+<h1 style="visibility: hidden;">testing</h1>
+
+
+{% endblock %}

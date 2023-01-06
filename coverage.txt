@@ -1,0 +1,4 @@
+https://docs.djangoproject.com/en/dev/internals/contributing/writing-code/unit-tests/
+
+coverage run manage.py test
+coverage html 

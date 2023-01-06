@@ -1,0 +1,66 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block title %}Register{% endblock %}
+{% block content %}
+
+<h5>Budgets</h5>
+<h1 style="text-align: center;">{{ user.username }}'s Budgets</h1>
+<hr>
+<div class="row">
+	{% for project in projects %}
+		<div class="col s12 md6 xl3">
+		  	<div class="card-panel">
+			    <h5>{{ project.name }}</h5>
+				<h6>{{ project.created_on }}</h6>
+			    <a href="{% url 'detail' project.slug %}" class="btn">Visit</a>
+			    {% if request.user == project.author %}
+				    <a onclick="deleteProject(this)" data-id="{{ project.id }}">
+					<i class="material-icons red-text right close">close</i>
+				{% endif %}
+				</a>
+		  	</div>
+		</div>
+	{% empty %}
+		<div class="noproject-wrapper center">
+		 	<h3 class="grey-text">{% if user.is_autheticated %}Sorry, you don't {% else %} This user doesnt {% endif %} have any budget projects yet.</h3>
+		</div>
+	{% endfor %}
+  	{% if request.user == profile.user %}
+		<a href="{% url 'add' %}" class="btn-large grey">
+			<i class="material-icons white-text left">add_circle</i>
+			<span class="bold">Add Budget Projects</span>
+		</a>
+	{% endif %}
+</div>
+<div class="row">
+    <div class="">
+      {% if projects.has_previous %}
+        <a href="?page=1">&laquo First</a>
+        <a href="?page={{ projects.previous_page_number }}">Previous</a>
+      {% endif %}
+      Page {{ projects.number }} of {{ projects.paginator.num_pages }}
+      {% if projects.has_next %}
+        <a href="?page={{ projects.next_page_number }}">Next</a>
+        <a href="?page={{ projects.paginator.num_pages }}">Last &raquo</a>
+      {% endif %}
+    </div>
+</div>
+
+<script>
+	function deleteProject(e){
+		let id = e.dataset.id
+		e.closest('div').remove()
+		fetch('',{
+			method:"DELETE",
+			headers:{
+				'X-CSRFToken':'{{csrf_token}}'
+			},
+			body:JSON.stringify({
+							'id':id
+						}),
+			credentials:'same-origin',
+		})
+	}
+</script>
+
+{% endblock %}

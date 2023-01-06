@@ -1,0 +1,26 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block title %}User-List{% endblock %}
+{% block content %}
+
+
+<h1 style="text-align: center;">Check Out Other Users Budgets!</h1>
+<hr>
+
+{% for user in users %}
+	<h3><a href="{% url 'profile_page' user.profile.pk %}">{{ user.username }}</a></h3>
+{% endfor %}
+
+
+{% endblock %}
+
+
+
+{% for project in project_list %}
+	<div class="col s12 md6 xl3">
+		<div class="card-panel">
+		    <h5>{{ project.name }}</h5>
+		    <a href="{% url 'detail' project.slug %}" class="btn">Visit</a>
+	  	</div>
+	</div>
+	{% endfor %}

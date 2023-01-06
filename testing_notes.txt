@@ -1,0 +1,5 @@
+coverage run manage.py test 
+coverage html 
+
+#run specfic test
+coverage run manage.py test users.tests.test_models.MyAccountManagerTest

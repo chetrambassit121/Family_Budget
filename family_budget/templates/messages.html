@@ -1,0 +1,31 @@
+{% load static %}
+
+
+
+{% for message in messages %}
+<div class="mess" >
+    <div class="container-fluid p-0 mess">
+        <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
+            {% comment %} <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="True">&times;</span>
+            </button> {% endcomment %}
+            {{ message }}
+        </div>
+    </div>
+</div>
+
+{% endfor %}
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        // messages timeout for 10 sec 
+        setTimeout(function() {
+            $('.mess').fadeOut();
+        }, 1000); // <-- time in milliseconds, 1000 =  1 sec
+
+        // delete message
+        //$('.del-msg').live('click',function(){
+        //    $('.del-msg').parent().attr('style', 'display:none;');
+        //})
+    });
+</script>

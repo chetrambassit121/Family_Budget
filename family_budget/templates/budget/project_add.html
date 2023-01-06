@@ -1,0 +1,19 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block title %}Add Budget{% endblock %}
+{% include 'messages.html' %}
+{% block content %}
+
+  <form action="" method="POST" style="margin-top: 50px;">
+    {% csrf_token %}
+    {{ form }}
+    <label for='categoryInput'>Expense Category (Hit ENTER button to save Category! User may save MULTIPLE Categories!)</label>
+    <input type="text" name="categoryInput" id="categoryInput">
+    <input type="hidden" name="categoriesString">
+    <ul id="categoriesContainer">
+    </ul>
+    <button type="submit" class="btn btn-outline-primary">Add Budget</button>
+  </form>
+  <script src="{% static 'js/script.js' %}"></script>
+
+{% endblock %}

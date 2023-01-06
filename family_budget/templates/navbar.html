@@ -1,0 +1,42 @@
+<nav class="navbar navbar-expand-lg bg-light" >
+  <div class="container-fluid" style="background-color: #26a69a;">
+    <a class="navbar-brand" href="{% url 'home' %}">Tivix Family Budget</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'add' %}">Create</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'profile_page' request.user.profile.pk %}">{{ request.user.username }}</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'user_list' %}">Users</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'login-api' %}">API-Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'login' %}">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'register' %}">Register</a>
+          </li>
+        {% endif %}
+      </ul>
+      {% if user.is_authenticated %}
+        <form class="d-flex" method="GET" action="{% url 'search' %}">
+          <input class="form-control me-2" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" name="query" value="{{ request.GET.query }}">
+          <button class="remove-default-btn" type="submit"><i class="fas fa-search"></i></button>
+        </form>
+      {% endif %}
+    </div>
+  </div>
+</nav>
