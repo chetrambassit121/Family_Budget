@@ -9,6 +9,7 @@ from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_str, DjangoUnicodeDecodeError
 from users.token import generate_token
 from django.core.mail import EmailMessage
+from django.core import mail
 from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
 from .models import User, UserProfile
@@ -17,8 +18,9 @@ from django.core.paginator import Paginator
 from django.http import HttpResponseRedirect, HttpResponse
 import json
 from django.db.models import Q
-
+from users.tokens import account_activation_token
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
+# from .forms import SignUpForm
 
 import threading
 
@@ -60,6 +62,32 @@ class EmailThread(threading.Thread):
         # self.email.send()
         self.email_message.send()
 
+
+# def RegistrationView(request):
+#     if request.method == "POST":
+#         form = SignUpForm(request.POST)     
+#         if form.is_valid():
+#             user = form.save(commit=False)
+#             user.is_active = False
+#             user.save()
+#             current_site = get_current_site(request)
+#             mail_subject = "Activate your blog account."
+#             message = render_to_string(
+#                 "auth/email_template.html",
+#                 {
+#                     "user": user,
+#                     "domain": current_site.domain,
+#                     "uid": urlsafe_base64_encode(force_bytes(user.pk)),
+#                     "token": account_activation_token.make_token(user),
+#                 },
+#             )
+#             to_email = form.cleaned_data.get("email")
+#             email = mail.EmailMessage(mail_subject, message, to=[to_email])
+#             email.send()
+#             return render(request, "auth/confirm_email.html")
+#     else:
+#         form = SignUpForm()
+#     return render(request, "auth/register.html", {"form": form})
 
 class RegistrationView(View):
     def get(self, request):
@@ -103,11 +131,6 @@ class RegistrationView(View):
         if context['has_error']:
             return render(request, 'auth/register.html', context, status=400)
 
-
-
-
-
-            
 
         user = User.objects.create_user(username=username, email=email, password=password)
         user.set_password(password)

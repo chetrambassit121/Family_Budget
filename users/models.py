@@ -27,10 +27,15 @@ class MyAccountManager(BaseUserManager):
             raise ValueError("Users must have an email")
         if not username:
             raise ValueError("Users must have a username")
-        user = self.model(email=self.normalize_email(email), username=username,)
+        user = self.model(email=self.normalize_email(email), username=username)
         user.set_password(password)
         user.save(using=self._db)
         return user
+    
+    def create_user_profile(self, user, pk):
+        user_profile = self.model(user=user, pk=pk)
+        user_profile.save(using=self._db)
+        return user_profile
 
     def create_superuser(self, email, username, password):
         user = self.create_user(
@@ -80,8 +85,9 @@ class UserProfile(models.Model):
         related_name="profile",
         on_delete=models.CASCADE,
     )
+    objects = MyAccountManager()
 
-    # userprofileprojects = models.ForeignKey(Project)
+    # projects = models.ForeignKey(Project, null=True)
 
     def get_absolute_url(self):
         return reverse("home")

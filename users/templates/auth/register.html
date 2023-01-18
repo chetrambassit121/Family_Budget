@@ -26,6 +26,7 @@
 							<hr>
 						</div>
 					</div>
+
 					{% include 'auth/_flash_messages.html'%}
 					<form action="{% url 'register' %}" method="post">
 						{% csrf_token %}
@@ -46,6 +47,7 @@
 						</div>
 						<input type="submit" value="Register" class="btn btn-sm btn-block btn-primary"/>
 					</form>
+					
 					<small class="py-3">
 						By signing up, you agree to our Terms , Data Policy and Cookies Policy .
 					</small>

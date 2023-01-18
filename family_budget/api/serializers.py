@@ -1,5 +1,5 @@
 from users.models import User, UserProfile
-from users.api.serializers import UserListSerializer
+# from users.api.serializers import UserListSerializer
 from family_budget.models import Project, Category, Expense
 from rest_framework.serializers import (  
     ModelSerializer,
@@ -7,14 +7,14 @@ from rest_framework.serializers import (
 
 
 class ProjectSerializer(ModelSerializer):
-    author = UserListSerializer()
+    # author = UserListSerializer()
     class Meta:
         model = Project
         fields= [
             "name",
             "budget",
             "slug",
-            "author"
+            # "author"
         ]
 
 
@@ -42,7 +42,7 @@ class CategoryCreateSerializer(ModelSerializer):
 
 class ProjectCreateSerializer(ModelSerializer):
     # author = UserListSerializer()
-    category = CategorySerializer()
+    # category = CategorySerializer()
 
     class Meta:
         model = Project
@@ -50,7 +50,7 @@ class ProjectCreateSerializer(ModelSerializer):
             "name",
             "budget",
             # "author"
-            "category"
+            # "category"
         ]
 
 

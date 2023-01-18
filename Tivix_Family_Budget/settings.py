@@ -16,13 +16,18 @@ import django_on_heroku
 import dj_database_url  
 from django.contrib.messages import constants as messages
 from django.contrib import messages
+import environ
+env = environ.Env()
+# reading .env file
+environ.Env.read_env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
-SECRET_KEY = str(os.getenv("SECRET_KEY"))
+# SECRET_KEY = str(os.getenv("SECRET_KEY"))
+SECRET_KEY = env("SECRET_KEY")
 DEBUG = True
 ALLOWED_HOSTS = ["*"] 
 
@@ -42,9 +47,9 @@ INSTALLED_APPS = [
     # 'pytest',
     # REST API APPS
     "rest_framework",
+    'rest_framework.authtoken',
     "knox",
     'djoser',
-    'rest_framework.authtoken',
     # 'django_nose'
 ]
 
@@ -195,63 +200,19 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
-
-
-
-
-# EMAIL_BACKEND = str(os.getenv("EMAIL_BACKEND"))
-# EMAIL_USE_TLS = str(os.getenv("EMAIL_USE_TLS"))
-# EMAIL_HOST = str(os.getenv("EMAIL_HOST"))
-# EMAIL_HOST_USER = str(os.getenv("EMAIL_HOST_USER"))
-# DEFAULT_FROM_EMAIL = str(os.getenv("DEFAULT_FROM_EMAIL"))
-# EMAIL_HOST_PASSWORD = str(os.getenv("EMAIL_HOST_PASSWORD"))
-# EMAIL_PORT = str(os.getenv("EMAIL_PORT"))
-
-
-EMAIL_BACKEND=os.getenv("EMAIL_BACKEND")
-EMAIL_USE_TLS=os.getenv("EMAIL_USE_TLS")
-EMAIL_HOST=os.getenv("EMAIL_HOST")
-EMAIL_HOST_USER=os.getenv("EMAIL_HOST_USER")
-DEFAULT_FROM_EMAIL=os.getenv("DEFAULT_FROM_EMAIL")
-EMAIL_HOST_PASSWORD=os.getenv("EMAIL_HOST_PASSWORD")
-EMAIL_PORT=os.getenv("EMAIL_PORT")
-
-
-# EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_USE_TLS=True
-# EMAIL_HOST=str(os.getenv("EMAIL_HOST"))
-# EMAIL_HOST_USER=str(os.getenv("EMAIL_HOST_USER"))
-# DEFAULT_FROM_EMAIL=str(os.getenv("DEFAULT_FROM_EMAIL"))
-# EMAIL_HOST_PASSWORD=str(os.getenv("EMAIL_HOST_PASSWORD"))
-# EMAIL_PORT=str(os.getenv("EMAIL_PORT"))
-
-
-# EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_USE_TLS=True
-# EMAIL_HOST=str(os.getenv("EMAIL_HOST"))
-# EMAIL_HOST_USER=str(os.getenv("EMAIL_HOST_USER"))
-# DEFAULT_FROM_EMAIL=str(os.getenv("DEFAULT_FROM_EMAIL"))
-# EMAIL_HOST_PASSWORD=str(os.getenv("EMAIL_HOST_PASSWORD"))
-# EMAIL_PORT=str(os.getenv("EMAIL_PORT"))
-
-# DEFAULT_FROM_EMAIL=os.environ.get('DEFAULT_FROM_EMAIL')
-# DEFAULT_FROM_EMAIL='django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_BACKEND=os.environ.get('EMAIL_BACKEND')
-
-# EMAIL_HOST=os.environ.get('EMAIL_HOST')
-# EMAIL_HOST_USER=os.environ.get('EMAIL_HOST_USER')
-# EMAIL_HOST_PASSWORD=os.environ.get('EMAIL_HOST_PASSWORD')
-# EMAIL_USE_TLS=os.environ.get('EMAIL_USE_TLS')
-# EMAIL_PORT=os.environ.get('EMAIL_PORT')
+EMAIL_BACKEND = env("EMAIL_BACKEND")
+EMAIL_USE_TLS = env("EMAIL_USE_TLS")
+EMAIL_HOST = env("EMAIL_HOST")
+EMAIL_HOST_USER = env("EMAIL_HOST_USER")
+DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL")
+EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
+EMAIL_PORT = env("EMAIL_PORT")
 
 
 LOGIN_URL='login'
 LOGIN_REDIRECT_URL='home'
 LOGOUT_URL='logout'
 LOGOUT_REDIRECT_URL='home'
-
-
 
 REST_FRAMEWORK = {
     "DEFAULT_RENDERER_CLASSES": [

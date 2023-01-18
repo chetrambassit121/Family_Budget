@@ -21,6 +21,10 @@ urlpatterns = [
     path('', include("family_budget.urls")),
     path('users/', include('django.contrib.auth.urls')),
     path('users/', include('users.urls')),
-    path("api/users/", include("users.api.urls"), name="users-api"),
-    path("api/budget/", include("family_budget.api.urls"), name="budget-api"),
+    path("users/", include("users.api.urls"), name="users-api"),
+    path("budget/", include("family_budget.api.urls"), name="budget-api"),
 ]
+
+# urlpatterns += [
+#     path('api-auth/', include('rest_framework.urls')),
+# ]

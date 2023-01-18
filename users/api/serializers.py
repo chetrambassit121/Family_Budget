@@ -1,6 +1,7 @@
 from asyncore import write
 from users.views import profilepageview
 from users.models import User, UserProfile
+# from .views import UserProfileAPIView
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import Q
@@ -12,7 +13,8 @@ from rest_framework.serializers import (  # charfield
     SerializerMethodField,
     ValidationError,
 )
-
+from rest_framework import serializers
+from family_budget.api.serializers import ProjectSerializer
 from family_budget.models import Project, Category, Expense
 # from family_budget.api.serializers import ProjectSerializer
 
@@ -20,7 +22,6 @@ class UserLoginSerializer(ModelSerializer):
     token = CharField(allow_blank=True, read_only=True)
     username = CharField(required=False, allow_blank=True)
     
-
     class Meta:
         model = User
         fields = [
@@ -97,17 +98,24 @@ class UserCreateSerializer(ModelSerializer):
         user_obj.save()
         return validated_data
 
+# class UserProjectSerializer(ModelSerializer):
+    
+    
 
 
 class UserProfileSerializer(ModelSerializer):
-    # projects = profilepageview
+    # profile = UserProfile.objects.get(pk=pk)
+    # user = profile.user
+    # p = Project.objects.filter(author=user)
+    # projects = ProjectSerializer()
     class Meta:
         model = UserProfile
-        # projects = profileview()
         fields = [
             # "id",
             "user",
-            # "project"
+            # "username"
+            # "projects"
+            # pro
         ]
     # def profileview(request, pk, *args, **kwargs):
     #     if request.method == 'GET':
@@ -116,11 +124,17 @@ class UserProfileSerializer(ModelSerializer):
     #         projects = Project.objects.filter(author=user)
     #         return projects
    
-
+# class UserDetailSerializer(ModelSerializer):
+#     class Meta:
+#         model = User
+#         fields = [
+#             "username",
+#             "date_joined"
+#         ]
    
 
-user_profile_url = HyperlinkedIdentityField(view_name="user-profile-api", lookup_field="id")
-class UserListSerializer(ModelSerializer):
+user_profile_url = HyperlinkedIdentityField(view_name='user-profile-api', lookup_field="id")
+class UserListSerializer(serializers.HyperlinkedModelSerializer, ModelSerializer):
     url = user_profile_url
     user = User.objects.all()
     html = SerializerMethodField()
@@ -138,10 +152,3 @@ class UserListSerializer(ModelSerializer):
         return obj.get_markdown()
 
 
-class UserDetailSerializer(ModelSerializer):
-    class Meta:
-        model = User
-        fields = [
-            "username",
-            "date_joined"
-        ]

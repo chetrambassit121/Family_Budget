@@ -37,36 +37,37 @@ from rest_framework.serializers import (
     ValidationError,
 )
 from .pagination import ProjectLimitOffsetPagination, ProjectPageNumberPagination
+from rest_framework import permissions, viewsets
 
 
-class ProjectAPIView(ListAPIView):
+class ProjectAPIView(viewsets.ReadOnlyModelViewSet, ListAPIView):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     pagination_class = ProjectPageNumberPagination
 
 
-class ExpenseAPIView(ListAPIView):
+class ExpenseAPIView(viewsets.ReadOnlyModelViewSet, ListAPIView):
     queryset = Expense.objects.all()
     serializer_class = ExpenseSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
 
-class CreateExpenseAPIView(CreateAPIView):
+class CreateExpenseAPIView(viewsets.ReadOnlyModelViewSet, CreateAPIView):
     queryset = Expense.objects.all()
     serializer_class = CreateExpenseSerializer
     permission_classes = [AllowAny]
 
-class CategoryAPIView(ListAPIView):
+class CategoryAPIView(viewsets.ReadOnlyModelViewSet, ListAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
 
-class CategoryCreateAPIView(CreateAPIView):
+class CategoryCreateAPIView(viewsets.ReadOnlyModelViewSet, CreateAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     permission_classes = [AllowAny]
 
-class ProjectCreateAPIView(CreateAPIView):
+class ProjectCreateAPIView(viewsets.ReadOnlyModelViewSet, CreateAPIView):
     queryset = Project.objects.all()
     serializer_class = ProjectCreateSerializer
 
