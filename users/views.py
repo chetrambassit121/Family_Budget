@@ -21,9 +21,8 @@ from django.db.models import Q
 from users.tokens import account_activation_token
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 # from .forms import SignUpForm
-
+from rest_framework.decorators import api_view
 import threading
-
 
 # def register(request):
 #     if request.method == "POST":

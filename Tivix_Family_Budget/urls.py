@@ -25,6 +25,6 @@ urlpatterns = [
     path("budget/", include("family_budget.api.urls"), name="budget-api"),
 ]
 
-# urlpatterns += [
-#     path('api-auth/', include('rest_framework.urls')),
-# ]
+urlpatterns += [
+    path('api-auth/', include('rest_framework.urls')),
+]

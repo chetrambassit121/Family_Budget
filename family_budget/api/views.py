@@ -55,7 +55,9 @@ class ExpenseAPIView(viewsets.ReadOnlyModelViewSet, ListAPIView):
 class CreateExpenseAPIView(viewsets.ReadOnlyModelViewSet, CreateAPIView):
     queryset = Expense.objects.all()
     serializer_class = CreateExpenseSerializer
-    permission_classes = [AllowAny]
+    # permission_classes = [AllowAny]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    
 
 class CategoryAPIView(viewsets.ReadOnlyModelViewSet, ListAPIView):
     queryset = Category.objects.all()
@@ -65,11 +67,15 @@ class CategoryAPIView(viewsets.ReadOnlyModelViewSet, ListAPIView):
 class CategoryCreateAPIView(viewsets.ReadOnlyModelViewSet, CreateAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    permission_classes = [AllowAny]
+    # permission_classes = [AllowAny]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    
 
 class ProjectCreateAPIView(viewsets.ReadOnlyModelViewSet, CreateAPIView):
     queryset = Project.objects.all()
     serializer_class = ProjectCreateSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    
 
     def post(self, request, *args, **kwargs):
         form = ProjectSerializer(request.POST, request.FILES)

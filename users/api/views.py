@@ -336,6 +336,16 @@ from django.http import JsonResponse
 from rest_framework import status
 from rest_framework.decorators import action
 
+from rest_framework.reverse import reverse
+from rest_framework.response import Response
+@api_view(['GET'])
+def api_root(request, format=None):
+    return Response({
+        'users': reverse('user-list', request=request, format=format),
+        # 'posts': reverse('post-list', request=request, format=format)
+    })
+
+
 # class LoginAPI(KnoxLoginView):
 #     permission_classes = (AllowAny)
 
@@ -364,11 +374,19 @@ class UserLoginAPIView(viewsets.ReadOnlyModelViewSet, KnoxLoginView):
     permission_classes = [AllowAny]
     serializer_class = UserLoginSerializer
     # @action(methods=['post'], detail=True)
+    # def post(self, request, format=None):
+        
+    #     serializer = UserLoginSerializer(data=request.data)
+    #     serializer.is_valid(raise_exception=True)
+    #     user = serializer.validated_data['user']
+    #     login(request, user)
+    #     return super(UserLoginAPIView, self).post(request, format=None)
     def post(self, request, *args, **kwargs):  
         data = request.data
         serializer = UserLoginSerializer(data=data)
         if serializer.is_valid(raise_exception=True):
             new_data = serializer.data
+            # login(request, new_data)
             return Response(new_data, status=HTTP_200_OK)
         return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
@@ -386,8 +404,7 @@ class UserListAPIView(viewsets.ReadOnlyModelViewSet, ListAPIView):
     serializer_class = UserListSerializer
     # permission_classes = [IsAuthenticated]
     # permission_classes = [AllowAny]
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
 
