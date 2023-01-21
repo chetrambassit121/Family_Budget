@@ -46,7 +46,7 @@ class UserLoginSerializer(ModelSerializer):
 
         if user_obj:
             if not user_obj.check_password(password):
-                raise ValidationError("Inncorrect credentials")
+                raise ValidationError("Incorrect credentials")
 
         data["token"] = "SOME RANDOM TOKEN"
 
@@ -98,16 +98,20 @@ class UserCreateSerializer(ModelSerializer):
         user_obj.save()
         return validated_data
 
-# class UserProjectSerializer(ModelSerializer):
-    
-    
 
+# class UserProjectSerializer(ModelSerializer):
+class UserDetailSerializer(ModelSerializer):
+    class Meta:
+        model = User
+        fields = ["username", "email"]
+    
 
 class UserProfileSerializer(ModelSerializer):
     # profile = UserProfile.objects.get(pk=pk)
-    # user = profile.user
+    user = UserDetailSerializer()
     # p = Project.objects.filter(author=user)
     # projects = ProjectSerializer()
+    
     class Meta:
         model = UserProfile
         fields = [
@@ -133,7 +137,7 @@ class UserProfileSerializer(ModelSerializer):
 #         ]
    
 
-user_profile_url = HyperlinkedIdentityField(view_name='user-profile-api', lookup_field="id")
+user_profile_url = HyperlinkedIdentityField(view_name='user-profile', lookup_field="pk")
 class UserListSerializer(serializers.HyperlinkedModelSerializer, ModelSerializer):
     url = user_profile_url
     user = User.objects.all()
@@ -143,7 +147,7 @@ class UserListSerializer(serializers.HyperlinkedModelSerializer, ModelSerializer
         model = User
         fields = [
             "url",
-            "id",
+            "pk",
             "username",
             "html"
         ]

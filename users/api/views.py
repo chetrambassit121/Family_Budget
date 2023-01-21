@@ -335,15 +335,17 @@ from rest_framework.permissions import AllowAny
 from django.http import JsonResponse
 from rest_framework import status
 from rest_framework.decorators import action
-
+from django.shortcuts import get_object_or_404
 from rest_framework.reverse import reverse
 from rest_framework.response import Response
-@api_view(['GET'])
-def api_root(request, format=None):
-    return Response({
-        'users': reverse('user-list', request=request, format=format),
-        # 'posts': reverse('post-list', request=request, format=format)
-    })
+
+
+# @api_view(['GET'])
+# def api_root(request, format=None):
+#     return Response({
+#         'users': reverse('user-list', request=request, format=format),
+#         # 'posts': reverse('post-list', request=request, format=format)
+#     })
 
 
 # class LoginAPI(KnoxLoginView):
@@ -429,6 +431,14 @@ class UserProfileAPIView(viewsets.ReadOnlyModelViewSet, ListAPIView):
     serializer_class = UserProfileSerializer
     permission_classes = [AllowAny]
     pagination_class = ProjectPageNumberPagination
+    
+    # def get_queryset(self):
+    #     return UserProfile.objects.filter(user=self.kwargs['pk'])
+    
+    def get(self, request, *args, **kwargs):
+        user = get_object_or_404(User, pk=kwargs['id'])
+        profile_serializer = UserProfileSerializer(user.profile)
+        return Response(profile_serializer.data)
 
 
     # def get(request, pk, *args, **kwargs):
